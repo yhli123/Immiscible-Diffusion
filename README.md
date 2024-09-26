@@ -12,7 +12,8 @@ Official Github Repo for Immiscible Diffusion: Accelerating Diffusion Training w
 
 ## News!
 - [2024/06/18]: Paper released on [arXiv](https://arxiv.org/abs/2406.12303).
-- [2022/09/19]: Code released.
+- [2024/09/19]: Code released.
+- [2024/09/26]: Paper accepted by NeurIPS 2024!
 
 ## Abstract
 In this paper, we point out suboptimal noise-data mapping leads to slow training of diffusion models. During diffusion training, current methods diffuse each image across the entire noise space, resulting in a mixture of all images at every point in the noise layer. We emphasize that this random mixture of noise-data mapping complicates the optimization of the denoising function in diffusion models. Drawing inspiration from the immiscible phenomenon in physics, we propose **Immiscible Diffusion**, a simple and effective method to improve the random mixture of noise-data mapping. In physics, miscibility can vary according to various intermolecular forces. Thus, immiscibility means that the mixing of the molecular sources is distinguishable.
