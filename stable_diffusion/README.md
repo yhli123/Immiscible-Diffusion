@@ -78,8 +78,10 @@ With class-conditional generation on Stable Diffusion, we observe FIDs as follow
 
 | Task | Batch Size | Training Steps | Vanilla SD FID | Immiscible SD FID |
 |------|------------|----------------|----------------|-------------------|
-| Training from Scratch | 2048 = 256 * 8 | 20k | 22.43 | 20.90 |
+| Training from Scratch | 2048 = 256 * 8 | 20k | 17.92 | 16.43 |
 | Fine-tuning on Stable Diffusion v1.4 [^1] | 512 = 128 * 4 | 5k | 11.45 | 10.28 |
+
+We observe diverse methods for computing FIDs. For consistency, we updated FIDs reported here to be evaluated with pytorch-fid[^2].
 
 ## Citation
 If this work is helpful for your research, please consider citing:
@@ -101,3 +103,5 @@ If this work is helpful for your research, please consider citing:
 This implementation is built upon:
 
 [^1]: Stable Diffusion: [diffusers/examples/text_to_image](https://github.com/huggingface/diffusers/tree/main/examples/text_to_image)
+
+[^2]: [Pytorch-FID](https://github.com/mseitzer/pytorch-fid)
