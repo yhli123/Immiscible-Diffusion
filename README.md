@@ -39,15 +39,18 @@ We welcome discussions and comments! Please reach out to [Yiheng Li](mailto:yhli
 If this work is helpful for your research, please consider citing:
 
 ```
-@misc{li2024immisciblediffusionacceleratingdiffusion,
-      title={Immiscible Diffusion: Accelerating Diffusion Training with Noise Assignment}, 
-      author={Yiheng Li and Heyang Jiang and Akio Kodaira and Masayoshi Tomizuka and Kurt Keutzer and Chenfeng Xu},
-      year={2024},
-      eprint={2406.12303},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2406.12303}, 
+@inproceedings{immiscible_diffusion_neurips,
+ author = {Li, Yiheng and Jiang, Heyang and Kodaira, Akio and Tomizuka, Masayoshi and Keutzer, Kurt and Xu, Chenfeng},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {A. Globerson and L. Mackey and D. Belgrave and A. Fan and U. Paquet and J. Tomczak and C. Zhang},
+ pages = {90198--90225},
+ publisher = {Curran Associates, Inc.},
+ title = {Immiscible Diffusion: Accelerating Diffusion Training with Noise Assignment},
+ url = {https://proceedings.neurips.cc/paper_files/paper/2024/file/a422a2f016c14406a01ddba731c0969a-Paper-Conference.pdf},
+ volume = {37},
+ year = {2024}
 }
+
 ```
 
 ## Acknowledgement
