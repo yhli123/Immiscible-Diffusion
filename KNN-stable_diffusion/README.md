@@ -1,9 +1,8 @@
 <div align="center">
 
-# Immiscible Diffusion: Stable Diffusion Version
-*Yiheng Li, Heyang Jiang, Akio Kodaira, Masayoshi Tomizuka, Kurt Keutzer, Chenfeng Xu*
+# Immiscible Diffusion: KNN Implementation on Stable Diffusion
 
-This folder contains the implementation of Immiscible Diffusion on Stable Diffusion [^1]. For general information regarding the codebase, please refer to the original repo [^1] we built on.
+This folder contains the KNN implementation of Immiscible Diffusion on Stable Diffusion [^1]. For general information regarding the codebase, please refer to the original repo [^1] we built on.
 </div>
 
 ## Get Started
@@ -46,11 +45,11 @@ conda env create -f sd.yml
 
 ## Train From Scratch
 
-Use bash file `train_scratch.sh` to start the training program `conditional_scratch_train_sd.py`. Note that you need to carefully read all coefficients in the bash file to ensure the program runs smoothly on your device. Refer to [^1] for the explanation of coefficients. For this experiment, we use 8 * Nvidia A800 GPUs with a total batch size of 2,048 = 256 * 8.
+Use bash file `train_scratch.sh` to start the training program `conditional_scratch_train_sd.py`. Note that you need to carefully read all coefficients in the bash file to ensure the program runs smoothly on your device. Refer to [^1] for the explanation of coefficients. For this experiment, we use 4 * Nvidia A6000 GPUs with a total batch size of 2,048 = 128 * 4 * 4, by setting `gradient_accumulation_steps=4`. The **k** value can be altered at `line 941` of `conditional_scratch_train_sd.py`.
 
 ## Fine-tuning
 
-Use bash file `train_ft.sh` to start the fine-tuning program `conditional_ft_train_sd.py`. Note that you need to carefully read all coefficients in the bash file to ensure the program runs smoothly on your device. Refer to [^1] for the explanation of coefficients. For this experiment, we use 4 * Nvidia A6000 GPUs with a total batch size of 512 = 128 * 4.
+Use bash file `train_ft.sh` to start the fine-tuning program `conditional_ft_train_sd.py`. Note that you need to carefully read all coefficients in the bash file to ensure the program runs smoothly on your device. Refer to [^1] for the explanation of coefficients. For this experiment, we use 4 * Nvidia A6000 GPUs with a total batch size of 512 = 128 * 4. The **k** value can be altered at `line 941` of `conditional_ft_train_sd.py`.
 
 ## Sampling
 
@@ -76,27 +75,12 @@ We also provide a large-quantity sampling program for FID calculation purposes. 
 
 With class-conditional generation on Stable Diffusion, we observe FIDs as follows,
 
-| Task | Batch Size | Training Steps | Vanilla SD FID | Immiscible SD FID |
+| Task | Batch Size | Training Steps | Vanilla SD FID | Immiscible SD FID (KNN, k=64) |
 |------|------------|----------------|----------------|-------------------|
-| Training from Scratch | 2048 = 256 * 8 | 20k | 17.92 | 16.43 |
-| Fine-tuning on Stable Diffusion v1.4 [^1] | 512 = 128 * 4 | 5k | 11.45 | 10.28 |
+| Training from Scratch | 2048 = 128 * 4 * 4 | 20k | 17.92 | 16.84 |
+| Fine-tuning on Stable Diffusion v1.4 [^1] | 512 = 128 * 4 * 1 | 5k | 11.45 | 10.38 |
 
 We observe diverse methods for computing FIDs. For consistency, we updated FIDs reported here to be evaluated with pytorch-fid[^2].
-
-## Citation
-If this work is helpful for your research, please consider citing:
-
-```
-@misc{li2024immisciblediffusionacceleratingdiffusion,
-      title={Immiscible Diffusion: Accelerating Diffusion Training with Noise Assignment}, 
-      author={Yiheng Li and Heyang Jiang and Akio Kodaira and Masayoshi Tomizuka and Kurt Keutzer and Chenfeng Xu},
-      year={2024},
-      eprint={2406.12303},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2406.12303}, 
-}
-```
 
 ## Acknowledgement
 

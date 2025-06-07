@@ -2,7 +2,7 @@ export MODEL_NAME="CompVis/stable-diffusion-v1-4"
 export DATASET_NAME="imagenet-1k"
 
 accelerate config
-accelerate launch --main_process_port 29600 --mixed_precision="fp16" --multi_gpu --num_processes 8 conditional_ft_train_sd.py \
+accelerate launch --main_process_port 29600 --mixed_precision="fp16" --multi_gpu --num_processes 4 conditional_ft_train_sd.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
   --dataset_name=$DATASET_NAME \
   --use_ema \

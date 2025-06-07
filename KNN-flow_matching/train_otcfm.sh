@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=0 python3 train_cifar10.py --model "otcfm" --lr 2e-4 --ema_decay 0.9999 --batch_size 256 --total_steps 400001 --save_step 20000

@@ -1,33 +1,37 @@
 <div align="center">
 
-# Immiscible Diffusion: Accelerating Diffusion Training with Noise Assignment
-*[Yiheng Li](https://yhli123.github.io/), [Heyang Jiang](https://www.linkedin.com/in/heyang-jiang-b64a522b2/?originalSubdomain=cn), [Akio Kodaira](https://www.linkedin.com/in/akio-kodaira-1a7b98252/), [Masayoshi Tomizuka](https://msc.berkeley.edu/people/tomizuka.html), [Kurt Keutzer](https://people.eecs.berkeley.edu/~keutzer/), [Chenfeng Xu](https://www.chenfengx.com/)*
+# Immiscible Diffusion and Improved Immiscible Diffusion
+# Accelerating Diffusion Training by Reducing Its Miscibility
+*[Yiheng Li](https://yhli123.github.io/), [Heyang Jiang](https://www.linkedin.com/in/heyang-jiang-b64a522b2/?originalSubdomain=cn), [Akio Kodaira](https://www.linkedin.com/in/akio-kodaira-1a7b98252/), [Feng Liang](https://jeff-liangf.github.io/), [Dan Kondratyuk](https://hyperparticle.com/about/), [Masayoshi Tomizuka](https://msc.berkeley.edu/people/tomizuka.html), [Kurt Keutzer](https://people.eecs.berkeley.edu/~keutzer/), [Chenfeng Xu](https://www.chenfengx.com/)*
 
-Official Github Repo for Immiscible Diffusion: Accelerating Diffusion Training with Noise Assignment
+Official Github Repo for Immiscible Diffusion [NeurIPS 2024], and Improved Immiscible Diffusion: Accelerating Diffusion Training by Reducing Its Miscibility.
 </div>
 
 <p align="center">
-    <img src="resources/Fig_Illustration.jpg"/ width="900">
+    <img src="resources/Fig1-Teaser.jpg"/ width="900">
 </p>
 
 ## News!
-- [2024/06/18]: Paper released on [arXiv](https://arxiv.org/abs/2406.12303).
+- [2024/06/18]: Immiscible Diffusion Paper released on [arXiv](https://arxiv.org/abs/2406.12303).
 - [2024/09/19]: Code released.
 - [2024/09/26]: Paper accepted by NeurIPS 2024!
+- [2025/06/01]: Improved Immiscible Diffusion Paper released on [arXiv](https://www.arxiv.org/abs/2505.18521)
+- [2025/06/01]: KNN Implementations for stable diffusion and flow matching released.
 
 ## Abstract
-In this paper, we point out suboptimal noise-data mapping leads to slow training of diffusion models. During diffusion training, current methods diffuse each image across the entire noise space, resulting in a mixture of all images at every point in the noise layer. We emphasize that this random mixture of noise-data mapping complicates the optimization of the denoising function in diffusion models. Drawing inspiration from the immiscible phenomenon in physics, we propose **Immiscible Diffusion**, a simple and effective method to improve the random mixture of noise-data mapping. In physics, miscibility can vary according to various intermolecular forces. Thus, immiscibility means that the mixing of the molecular sources is distinguishable.
-Inspired by this concept, we propose an assignment-then-diffusion training strategy. As one example, prior to diffusing the image data into noise, we assign diffusion target noise for the image data by minimizing the total image-noise pair distance in a mini-batch. The assignment functions analogously to external forces to expel the diffuse-able areas of images, thus mitigating the inherent difficulties in diffusion training. Our approach is remarkably simple, requiring only **one line of code** to restrict the diffuse-able area for each image while preserving the Gaussian distribution of noise. This ensures that each image is preferably projected to nearby noise. 
-To address the high complexity of the assignment algorithm, we employs a quantized-assignment strategy, which significantly reduces the computational overhead to a negligible level (*e.g.,* 22.8ms for a large batch size of 1024 on an A6000). Experiments demonstrate that our method can achieve up to 3x faster training for consistency models and DDIM on the CIFAR dataset, and up to 1.3x faster on CelebA datasets for consistency models, as well as in class-conditional training and fine-tuning. Besides, we conduct thorough analysis which sheds lights on how it improves diffusion training speed while improving the fidelity.
+
+In these papers, we point out mixing of diffusion paths from different images leads to slow training of diffusion models. During diffusion training, current methods diffuse each image across the entire noise space, resulting in a mixture of all images at a bunch of point in noisy layers. We perform step-by-step feature analysis showing that such mixture of diffusion paths complicates the optimization of the denoising functions. Drawing inspiration from the immiscible phenomenon in physics, we propose **Immiscible Diffusion**, a training strategy to reduce the mixture of diffusion paths from different images. In physics, miscibility can vary according to various intermolecular forces. Thus, immiscibility means that the mixing of the molecular sources is distinguishable. 
+
+Inspired by this concept, we propose diverse implementations to achieve immiscible diffusion in diffusion-based models. As one example, prior to diffusing the image data into noise, we assign diffusion target noise for the image data by minimizing the total image-noise pair distance in a mini-batch. As another example, we replace the image-noise paring with a KNN noise selection process, choosing the noise point closest to the image among k Gaussian noise samples. These methods mitigate the inherent difficulties in diffusion training, and their effectivenesses are supported by detailed feature analysis. 
+
+Our approaches are also simple, requiring only **few lines of code**, and the improved KNN implementation is pretty efficient, requiring only *0.7ms* for a large batch size of 1,024 on an A6000. Experiments demonstrate that our methods can achieve up to $>4\times$ faster training across diverse models and tasks including unconditional/conditional generation, image editing, and robotics planning. Furthermore, our analysis of immiscibility offers a novel perspective on how optimal transport (OT) enhances diffusion training. By identifying trajectory miscibility as a fundamental bottleneck, we believe this work establishes a potentially new direction for future research into high-efficiency diffusion training.
 
 ## Repo Structure
 
 Due to the add-on nature of immiscible diffusion, the usage guide as well as reference checkpoints are provided seperately in `README.md` of each method. We are providing following implementations:
 
 - [x] Class-conditional Stable Diffusion [^1] training & fine-tuning & sampling
-- [ ] Consistency Model (JAX version, for CIFAR only) [^2] training & sampling
-- [ ] Consistency Model (PyTorch version, for other datasets) [^3] training & sampling
-- [ ] DDIM [^4] training & sampling
+- [x] Flow Matching [^3] training & sampling
 
 ## Maintainance and Discussion
 
@@ -51,6 +55,15 @@ If this work is helpful for your research, please consider citing:
  year = {2024}
 }
 
+@misc{li2025improvedimmisciblediffusionaccelerate,
+      title={Improved Immiscible Diffusion: Accelerate Diffusion Training by Reducing Its Miscibility}, 
+      author={Yiheng Li and Feng Liang and Dan Kondratyuk and Masayoshi Tomizuka and Kurt Keutzer and Chenfeng Xu},
+      year={2025},
+      eprint={2505.18521},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2505.18521}, 
+}
 ```
 
 ## Acknowledgement
@@ -59,8 +72,6 @@ We thank numerous excellent works and open-source codebases. Specifically, we ar
 
 [^1]: Stable Diffusion: [diffusers/examples/text_to_image](https://github.com/huggingface/diffusers/tree/main/examples/text_to_image)
 
-[^2]: Consistency Models (JAX version): [consistency_models_cifar10](https://github.com/openai/consistency_models_cifar10)
+[^2]: DDIM: [ddpm-torch](https://github.com/tqch/ddpm-torch)
 
-[^3]: Consistency Models (PyTorch version): [consistency_models](https://github.com/openai/consistency_models)
-
-[^4]: DDIM: [ddpm-torch](https://github.com/tqch/ddpm-torch)
+[^3]: Flow Matching: [conditional-flow-matching](https://github.com/atong01/conditional-flow-matching)

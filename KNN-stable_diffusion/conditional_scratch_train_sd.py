@@ -749,7 +749,6 @@ def main():
             )
 
     # !!!!!! This is for ImageNet only, because its label is numbers, not text !!!!!!
-    # 初始化一个空列表
     label_list = []
 
     with open('imagenet-classes.txt', 'r', encoding='utf-8') as file:
@@ -939,37 +938,22 @@ def main():
                 #### START OF IMMISCIBLE DIFFUSION ####
 
                 # Doing assignment on the main process (CPU)
-                with torch.no_grad():
-                    noise = torch.randn_like(latents) # [B, C. H, W]
-                    gathered_noise = [torch.zeros_like(noise) for _ in range(accelerator.num_processes)] # W * [B, C, H, W]
-                    dist.all_gather(gathered_noise, noise)
-                    gathered_noise = torch.cat(gathered_noise, dim=0) # [WB, C, H, W]
-                    distance = torch.linalg.vector_norm(0.10 * latents.to(torch.float16).flatten(start_dim=1).unsqueeze(1) - 0.10 * gathered_noise.to(torch.float16).flatten(start_dim=1).unsqueeze(0), dim=2) # [B, WB]
-                    gathered_distance = [torch.zeros_like(torch.tensor(distance)) for _ in range(accelerator.num_processes)]
-                    dist.all_gather(gathered_distance, torch.tensor(distance))
-                    
+                k = 64
+                # First, generate n noises for each data in latents
+                noise = torch.randn(latents.shape[0], k, latents.shape[1], latents.shape[2], latents.shape[3], device=latents.device) # [B, k, C, H, W]
 
-                    if accelerator.is_main_process:
-                        # Noise Assignment
-                        gathered_distance = torch.cat(gathered_distance, dim=0).cpu().numpy() # [WB, WB]
-                        _, col_ind = linear_sum_assignment(gathered_distance)
-                        # print("Batch Size =", args.train_batch_size * accelerator.num_processes)
-                        # print("Dist BEFORE assignment =", distance.trace())
-                        # print("Dist AFTER assignment =", np.sum(distance[row_ind, col_ind]))
-                        # print("Dist Change Rate =", (distance.trace() - np.sum(distance[row_ind, col_ind])) / distance.trace())
-                        gathered_noise = gathered_noise[col_ind]
+                latents_points = latents.flatten(start_dim=1).to(torch.float16) # [B, D=H*W*C]
+                noise_points = noise.flatten(start_dim=2).to(torch.float16)  # [B,k, D=H*W*C]
 
-                        for process in range(accelerator.num_processes):
-                            start_idx = args.train_batch_size * process
-                            end_idx = start_idx + args.train_batch_size
-                            if process == accelerator.process_index:
-                                noise = gathered_noise[start_idx:end_idx].to(accelerator.device)
-                            else:
-                                dist.send(tensor=gathered_noise[start_idx:end_idx].to(accelerator.device), dst=process)
-                    else:
-                        dist.recv(tensor=noise, src=0)
-                        # Note: main process is normally 0, so here we hardcode.
-                    accelerator.wait_for_everyone()
+                # Calculate the distance between latents and the corresponding k noises
+                distance_points = latents_points.unsqueeze(1) - noise_points # [B, k, D]
+                distance = torch.linalg.vector_norm(distance_points, dim=2) # [B, k]
+
+                # Pick the nearest noise for each data in latents
+                _, min_index = torch.min(distance, dim=1) # [B]
+                noise = torch.gather(noise, 1, min_index.unsqueeze(1).unsqueeze(2).unsqueeze(3).unsqueeze(4).expand(-1, -1, latents.shape[1], latents.shape[2], latents.shape[3]))[:, 0, :, :, :] # [B, C, H, W]
+
+
 
                 #### END IMMISCIBLE DIFFUSION ####
 

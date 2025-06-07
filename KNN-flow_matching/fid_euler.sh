@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=0 python3 compute_fid.py --model "otcfm" --step 20000 --integration_method euler --input_dir ./results --integration_steps 50
