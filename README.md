@@ -17,6 +17,7 @@ Official Github Repo for Immiscible Diffusion [NeurIPS 2024], and Improved Immis
 - [2024/09/26]: Paper accepted by NeurIPS 2024!
 - [2025/06/01]: Improved Immiscible Diffusion Paper released on [arXiv](https://www.arxiv.org/abs/2505.18521)
 - [2025/06/01]: KNN Implementations for stable diffusion and flow matching released.
+- [2026/08/19]: Improved Immiscible Diffusion paper accepted by ECCV 2026!
 
 ## Abstract
 
