@@ -4,7 +4,7 @@
 # Accelerating Diffusion Training by Reducing Its Miscibility
 *[Yiheng Li](https://yhli123.github.io/), [Heyang Jiang](https://www.linkedin.com/in/heyang-jiang-b64a522b2/?originalSubdomain=cn), [Akio Kodaira](https://www.linkedin.com/in/akio-kodaira-1a7b98252/), [Feng Liang](https://jeff-liangf.github.io/), [Dan Kondratyuk](https://hyperparticle.com/about/), [Masayoshi Tomizuka](https://msc.berkeley.edu/people/tomizuka.html), [Kurt Keutzer](https://people.eecs.berkeley.edu/~keutzer/), [Chenfeng Xu](https://www.chenfengx.com/)*
 
-Official Github Repo for Immiscible Diffusion [NeurIPS 2024], and Improved Immiscible Diffusion: Accelerating Diffusion Training by Reducing Its Miscibility.
+Official Github Repo for Immiscible Diffusion [NeurIPS 2024], and Improved Immiscible Diffusion [ECCV 2026]: Accelerating Diffusion Training by Reducing Its Miscibility.
 </div>
 
 <p align="center">
