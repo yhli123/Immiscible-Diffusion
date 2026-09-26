@@ -11,6 +11,17 @@ Official Github Repo for Immiscible Diffusion [NeurIPS 2024], and Improved Immis
     <img src="resources/Fig1-Teaser.jpg"/ width="900">
 </p>
 
+## Papers and code
+
+This repository is the **shared implementation** for two distinct papers:
+
+| Paper | Contribution | Paper page and citation |
+| --- | --- | --- |
+| Immiscible Diffusion (NeurIPS 2024) | Introduces mini-batch noise–data assignment and the assignment-then-diffusion training strategy. | [Paper and BibTeX](https://yihengli.com/immiscible-diffusion/) · [arXiv:2406.12303](https://arxiv.org/abs/2406.12303) |
+| Improved Immiscible Diffusion (ECCV 2026, accepted) | Extends miscibility reduction with KNN noise selection and image scaling, with further analysis and an optimal-transport connection. | [Paper and BibTeX](https://yihengli.com/improved-immiscible-diffusion/) · [arXiv:2505.18521](https://arxiv.org/abs/2505.18521) |
+
+If describing the original noise assignment method, cite the NeurIPS paper. If discussing KNN selection, image scaling, or the broader miscibility analysis, cite the improved paper. When a result or implementation draws from both, cite both as appropriate. The ECCV accepted-paper title differs slightly from the arXiv title; use the linked paper page for the current citation record.
+
 ## News!
 - [2024/06/18]: Immiscible Diffusion Paper released on [arXiv](https://arxiv.org/abs/2406.12303).
 - [2024/09/19]: Code released.
